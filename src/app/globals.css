@@ -2,32 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    /* Name: custom color palette
+       Author: Ilias Ism
+       URL: https://gradient.page */
+
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: linear-gradient(to top left,#2c3e50,#3498db);
+    --background: 223 96.45% 98.48%;
+    --foreground: 223 2.9% 0.96%;
+
+    --muted: 223 2.9% 92.4%;
+    --muted-foreground: 223 1.45% 42.4%;
+
+    --popover: 223 66.8% 92.4%;
+    --popover-foreground: 223 2.9% 1.2%;
+
+    --card: 223 66.8% 92.4%;
+    --card-foreground: 223 2.9% 1.2%;
+
+    --border: 223 7.9% 89.96%;
+    --input: 223 7.9% 89.96%;
+
+    --primary: 223 29% 24%;
+    --primary-foreground: 223 0.58% 92.4%;
+
+    --secondary: 223 1.45% 96.2%;
+    --secondary-foreground: 223 2.7399999999999998% 12.4%;
+
+    --accent: 223 1.45% 96.2%;
+    --accent-foreground: 223 2.7399999999999998% 12.4%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 223 29% 24%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Name: custom color palette
+       Author: Ilias Ism
+       URL: https://gradient.page */
+
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: linear-gradient(to top left,#24C6DC,#514A9D);
+
+    --background: 199 47.449999999999996% 4%;
+    --foreground: 199 7.3% 97.5%;
+
+    --muted: 199 36.5% 15%;
+    --muted-foreground: 199 7.3% 55%;
+
+    --popover: 199 50.4% 6.5%;
+    --popover-foreground: 199 7.3% 97.5%;
+
+    --card: 199 50.4% 6.5%;
+    --card-foreground: 199 7.3% 97.5%;
+
+    --border: 199 36.5% 15%;
+    --input: 199 36.5% 15%;
+
+    --primary: 199 73% 50%;
+    --primary-foreground: 199 7.3% 5%;
+
+    --secondary: 199 36.5% 15%;
+    --secondary-foreground: 199 7.3% 97.5%;
+
+    --accent: 199 36.5% 15%;
+    --accent-foreground: 199 7.3% 97.5%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 199 7.3% 97.5%;
+
+    --ring: 199 73% 50%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
