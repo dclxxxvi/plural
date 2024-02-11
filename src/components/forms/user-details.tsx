@@ -346,7 +346,7 @@ const UserDetails: React.FC<Props> = ({ id, type, userData, subAccounts }) => {
                       <div
                         key={subaccount.id}
                         className={
-                          "flex flex-col items-center justify-between rounded-lg border p-4"
+                          "flex items-center justify-between rounded-lg border p-4"
                         }
                       >
                         <div>
