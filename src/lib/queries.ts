@@ -7,6 +7,8 @@ import { Agency, Plan, Prisma, Role, SubAccount, User } from "@prisma/client";
 import agencyDetails from "@/components/forms/agency-details";
 import { log } from "util";
 import { v4 } from "uuid";
+import subaccountDetails from "@/components/forms/subaccount-details";
+import { CreateMediaType } from "@/lib/types";
 
 export const getAuthUserDetails = async () => {
   const user = await currentUser();
@@ -72,7 +74,7 @@ export const saveActivityLogsNotification = async ({
     });
   }
 
-  if (userData) {
+  if (!userData) {
     console.log("Could not find a user");
     return;
   }
@@ -98,7 +100,7 @@ export const saveActivityLogsNotification = async ({
   if (subaccountId) {
     await db.notification.create({
       data: {
-        notification: `${userData.name | description}`,
+        notification: `${userData.name} | ${description}`,
         User: {
           connect: {
             id: userData.id,
@@ -524,4 +526,39 @@ export const sendInvitation = async (
   }
 
   return resposne;
+};
+
+export const getMedia = async (subaccountId: string) => {
+  const mediafiles = await db.subAccount.findUnique({
+    where: {
+      id: subaccountId,
+    },
+    include: {
+      Media: true,
+    },
+  });
+  return mediafiles;
+};
+
+export const createMedia = async (
+  subaccountId: string,
+  mediaFile: CreateMediaType,
+) => {
+  const response = await db.media.create({
+    data: {
+      link: mediaFile.link,
+      name: mediaFile.name,
+      subAccountId: subaccountId,
+    },
+  });
+  return response;
+};
+
+export const deleteMedia = async (mediaId: string) => {
+  const response = await db.media.delete({
+    where: {
+      id: mediaId,
+    },
+  });
+  return response;
 };
