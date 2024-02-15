@@ -841,17 +841,17 @@ export const deleteTag = async (tagId: string) => {
   return response;
 };
 
-// export const upsertContact = async (
-//   contact: Prisma.ContactUncheckedCreateInput,
-// ) => {
-//   const response = await db.contact.upsert({
-//     where: { id: contact.id || v4() },
-//     update: contact,
-//     create: contact,
-//   });
-//   return response;
-// };
-//
+export const upsertContact = async (
+  contacts: Prisma.ContactUncheckedCreateInput,
+) => {
+  const response = await db.contact.upsert({
+    where: { id: contacts.id || v4() },
+    update: contacts,
+    create: contacts,
+  });
+  return response;
+};
+
 // export const getFunnels = async (subacountId: string) => {
 //   const funnels = await db.funnel.findMany({
 //     where: { subAccountId: subacountId },

@@ -55,7 +55,7 @@ const InfoBar: React.FC<Props> = ({
     <>
       <div
         className={twMerge(
-          "fixed z-[20] md:left-[300px] left-0 right-0 top-0 p-4 bg-background/80 backdrop-blur-md flex  gap-4 items-center border-b-[1px]",
+          "fixed z-[20] md:left-[300px] left-0 right-0 top-0 p-4 bg-background/80 backdrop-blur-md flex  gap-4 items-center border-b-[1px] ",
           className,
         )}
       >
@@ -63,23 +63,19 @@ const InfoBar: React.FC<Props> = ({
           <UserButton afterSignOutUrl={"/"} />
           <Sheet>
             <SheetTrigger>
-              <div
-                className={
-                  "rounded-full w-8 h-8 bg-primary flex items-center justify-center text-white"
-                }
-              >
+              <div className="rounded-full w-9 h-9 bg-primary flex items-center justify-center text-white">
                 <Bell size={17} />
               </div>
             </SheetTrigger>
-            <SheetContent className={"mt-4 mr-4 pr-4 flex flex-col"}>
-              <SheetHeader className={"text-left"}>
+            <SheetContent className={"mt-4 mr-4 pr-4 overflow-scroll"}>
+              <SheetHeader className={"text-left mb-4"}>
                 <SheetTitle>Notifications</SheetTitle>
                 <SheetDescription>
                   {role === "AGENCY_ADMIN" ||
                     (role === "AGENCY_OWNER" && (
-                      <Card className={"flex items-center justify-between p-4"}>
+                      <Card className="flex items-center justify-between p-3">
                         Current Subaccount
-                        <Switch onChangeCapture={handleClick} />
+                        <Switch onCheckedChange={handleClick} />
                       </Card>
                     ))}
                 </SheetDescription>
@@ -88,7 +84,7 @@ const InfoBar: React.FC<Props> = ({
                 allNotifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={"flex flex-col overflow-x-scroll text-ellipsis"}
+                    className="flex flex-col gap-y-2 mb-2 overflow-x-scroll text-ellipsis"
                   >
                     <div className={"flex gap-2"}>
                       <Avatar>
@@ -101,7 +97,7 @@ const InfoBar: React.FC<Props> = ({
                         </AvatarFallback>
                       </Avatar>
                       <div className={"flex flex-col"}>
-                        <p>
+                        <p className={"text-sm"}>
                           <span className={"font-bold"}>
                             {notification.notification.split("|")[0]}
                           </span>
