@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Agency, User, Contact } from "@prisma/client";
+import { Agency, User, Contact, Plan } from "@prisma/client";
 import { createContext, useContext, useEffect, useState } from "react";
-import { TicketDetails } from "@/lib/types";
+import { PricesList, TicketDetails } from "@/lib/types";
 
 interface Props {
   children: React.ReactNode;
@@ -14,6 +14,10 @@ export type ModalData = {
   agency?: Agency;
   ticket?: TicketDetails[0];
   contact?: Contact;
+  plans?: {
+    defaultPriceId: Plan;
+    plans: PricesList["data"];
+  };
 };
 
 type ModalContextType = {

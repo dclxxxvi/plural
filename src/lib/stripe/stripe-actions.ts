@@ -1,8 +1,7 @@
 "use server";
-
 import Stripe from "stripe";
 import { db } from "../db";
-import { stripe } from "@/lib/stripe/index";
+import { stripe } from ".";
 
 export const subscriptionCreated = async (
   subscription: Stripe.Subscription,
@@ -17,9 +16,8 @@ export const subscriptionCreated = async (
         SubAccount: true,
       },
     });
-
     if (!agency) {
-      throw new Error("Could not find any agency to upsert the subscription");
+      throw new Error("Could not find and agency to upsert the subscription");
     }
 
     const data = {
@@ -27,8 +25,10 @@ export const subscriptionCreated = async (
       agencyId: agency.id,
       customerId,
       currentPeriodEndDate: new Date(subscription.current_period_end * 1000),
+      //@ts-ignore
       priceId: subscription.plan.id,
-      subscriptionId: subscription.id,
+      subscritiptionId: subscription.id,
+      //@ts-ignore
       plan: subscription.plan.id,
     };
 
@@ -39,10 +39,9 @@ export const subscriptionCreated = async (
       create: data,
       update: data,
     });
-
-    console.log(`Created Subscription for ${subscription.id}`);
-  } catch (e) {
-    console.log("Error from Create action", e);
+    console.log(`🟢 Created Subscription for ${subscription.id}`);
+  } catch (error) {
+    console.log("🔴 Error from Create action", error);
   }
 };
 
@@ -56,6 +55,5 @@ export const getConnectAccountProducts = async (stripeAccount: string) => {
       stripeAccount,
     },
   );
-
   return products.data;
 };
