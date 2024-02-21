@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { CheckCircleIcon } from "lucide-react";
+import { getStripeOAuthLink } from "@/lib/utils";
+import { stripe } from "@/lib/stripe";
 
 interface Props {
   params: {
@@ -44,7 +46,30 @@ const Page: React.FC<Props> = async ({ params, searchParams }) => {
     subaccountDetails.name &&
     subaccountDetails.state;
 
-  //WIP: Wire up stripe
+  const stripeOAuthLink = getStripeOAuthLink(
+    "subaccount",
+    `launchpad___${subaccountDetails.id}`,
+  );
+
+  let connectedStripeAccount = false;
+
+  if (searchParams.code) {
+    if (!subaccountDetails.connectAccountId) {
+      try {
+        const response = await stripe.oauth.token({
+          grant_type: "authorization_code",
+          code: searchParams.code,
+        });
+        await db.subAccount.update({
+          where: { id: params.subaccountId },
+          data: { connectAccountId: response.stripe_user_id },
+        });
+        connectedStripeAccount = true;
+      } catch (error) {
+        console.log("🔴 Could not connect stripe account");
+      }
+    }
+  }
 
   return (
     <BlurPage>
@@ -85,20 +110,20 @@ const Page: React.FC<Props> = async ({ params, searchParams }) => {
                     used to run payouts.
                   </p>
                 </div>
-                {/*{subaccountDetails.connectAccountId ||*/}
-                {/*connectedStripeAccount ? (*/}
-                {/*  <CheckCircleIcon*/}
-                {/*    size={50}*/}
-                {/*    className=" text-primary p-2 flex-shrink-0"*/}
-                {/*  />*/}
-                {/*) : (*/}
-                {/*  <Link*/}
-                {/*    className="bg-primary py-2 px-4 rounded-md text-white"*/}
-                {/*    href={stripeOAuthLink}*/}
-                {/*  >*/}
-                {/*    Start*/}
-                {/*  </Link>*/}
-                {/*)}*/}
+                {subaccountDetails.connectAccountId ||
+                connectedStripeAccount ? (
+                  <CheckCircleIcon
+                    size={50}
+                    className=" text-primary p-2 flex-shrink-0"
+                  />
+                ) : (
+                  <Link
+                    className="bg-primary py-2 px-4 rounded-md text-white"
+                    href={stripeOAuthLink}
+                  >
+                    Start
+                  </Link>
+                )}
               </div>
               <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg">
                 <div className="flex items-center gap-4">

@@ -10,15 +10,11 @@ import {
 } from "@prisma/client";
 import {
   _getTicketsWithAllRelations,
-  // 	_getTicketsWithAllRelations,
   getAuthUserDetails,
+  getFunnels,
   getMedia,
   getPipelineDetails,
   getTicketsWithTags,
-  // 	getFunnels,
-  // 	getMedia,
-  // 	getPipelineDetails,
-  // 	getTicketsWithTags,
   getUserPermissions,
 } from "./queries";
 import db from "@/lib/db";
@@ -44,11 +40,11 @@ export type UserWithPermissionsAndSubAccounts = Prisma.PromiseReturnType<
   typeof getUserPermissions
 >;
 
-// export const FunnelPageSchema = z.object({
-// 	name: z.string().min(1),
-// 	pathName: z.string().optional(),
-// })
-//
+export const FunnelPageSchema = z.object({
+  name: z.string().min(1),
+  pathName: z.string().optional(),
+});
+
 const __getUsersWithAgencySubAccountPermissionsSidebarOptions = async (
   agencyId: string,
 ) => {
@@ -147,8 +143,8 @@ export type StripeCustomerType = {
 
 export type PricesList = Stripe.ApiList<Stripe.Price>;
 
-// export type FunnelsForSubAccount = Prisma.PromiseReturnType<
-// 	typeof getFunnels
-// >[0]
-//
-// export type UpsertFunnelPage = Prisma.FunnelPageCreateWithoutFunnelInput
+export type FunnelsForSubAccount = Prisma.PromiseReturnType<
+  typeof getFunnels
+>[0];
+
+export type UpsertFunnelPage = Prisma.FunnelPageCreateWithoutFunnelInput;
