@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import EditorProvider from "@/providers/editor/editor-provider";
 import FunnelEditorNavigation from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-navigation";
+import FunnelEditorSidebar from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar";
 
 interface Props {
   params: {
@@ -41,6 +42,7 @@ const Page: React.FC<Props> = async ({ params }) => {
           funnelPageDetails={funnelPageDetails}
           subaccountId={params.subaccountId}
         />
+        <FunnelEditorSidebar subaccountId={params.subaccountId} />
       </EditorProvider>
     </div>
   );
