@@ -42,8 +42,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { clsx } from "clsx";
-import { Col } from "@tremor/react";
 
 interface ColorInputProps {
   onChange: (color: string) => void;
@@ -112,8 +110,6 @@ const SettingsTab: React.FC<Props> = ({}) => {
   const handleOnChanges = (e: any) => {
     const styleSettings = e.target.id as keyof EditorElement;
     let value = e.target.value;
-
-    console.log(e.target.value);
 
     const styleObject = {
       [styleSettings]: value,

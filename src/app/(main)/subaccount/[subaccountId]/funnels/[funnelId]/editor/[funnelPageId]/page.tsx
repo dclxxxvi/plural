@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import EditorProvider from "@/providers/editor/editor-provider";
 import FunnelEditorNavigation from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-navigation";
 import FunnelEditorSidebar from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar";
+import FunnelEditor from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor";
 
 interface Props {
   params: {
@@ -42,6 +43,9 @@ const Page: React.FC<Props> = async ({ params }) => {
           funnelPageDetails={funnelPageDetails}
           subaccountId={params.subaccountId}
         />
+        <div className={"h-full flex justify-center"}>
+          <FunnelEditor funnelPageId={params.funnelPageId} />
+        </div>
         <FunnelEditorSidebar subaccountId={params.subaccountId} />
       </EditorProvider>
     </div>

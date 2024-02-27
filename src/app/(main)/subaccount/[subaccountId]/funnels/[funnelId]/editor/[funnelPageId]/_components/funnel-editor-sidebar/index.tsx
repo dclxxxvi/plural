@@ -13,6 +13,7 @@ import { clsx } from "clsx";
 import TabList from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs";
 import SettingsTab from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/settings-tab";
 import MediaBucketTab from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/media-bucket-tab";
+import ComponentsTab from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab";
 
 interface Props {
   subaccountId: string;
@@ -55,6 +56,15 @@ const FunnelEditorSidebar: React.FC<Props> = ({ subaccountId }) => {
             </TabsContent>
             <TabsContent value={"Media"}>
               <MediaBucketTab subaccountId={subaccountId} />
+            </TabsContent>
+            <TabsContent value={"Components"}>
+              <SheetHeader className={"text-left p-6"}>
+                <SheetTitle>Components</SheetTitle>
+                <SheetDescription>
+                  You can drag and drop components on the canvas
+                </SheetDescription>
+              </SheetHeader>
+              <ComponentsTab />
             </TabsContent>
           </div>
         </SheetContent>

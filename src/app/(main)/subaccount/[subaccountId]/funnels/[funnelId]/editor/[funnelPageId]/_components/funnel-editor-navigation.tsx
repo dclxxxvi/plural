@@ -84,7 +84,7 @@ const FunnelEditorNavigation: React.FC<Props> = ({
   };
 
   const handlePreviewClick = () => {
-    dispatch({ type: "TOGGLE_LIVE_MODE" });
+    dispatch({ type: "TOGGLE_PREVIEW_MODE" });
     dispatch({ type: "TOGGLE_LIVE_MODE" });
   };
 
