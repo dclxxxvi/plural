@@ -5,12 +5,13 @@ import { clsx } from "clsx";
 import { Badge } from "@/components/ui/badge";
 import { Trash } from "lucide-react";
 import { EditorBtns } from "@/lib/constants";
+import Link from "next/link";
 
 interface Props {
   element: EditorElement;
 }
 
-const TextComponent: React.FC<Props> = ({ element }) => {
+const LinkComponent: React.FC<Props> = ({ element }) => {
   const { dispatch, state } = useEditor();
   const { styles, content } = element;
 
@@ -51,6 +52,7 @@ const TextComponent: React.FC<Props> = ({ element }) => {
           "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
         },
       )}
+      draggable
       onClick={handleOnClickBody}
       onDragStart={(e) => handleDragStart(e, "text")}
     >
@@ -61,25 +63,37 @@ const TextComponent: React.FC<Props> = ({ element }) => {
           </Badge>
         )}
 
-      <span
-        contentEditable={!state.editor.liveMode}
-        onBlur={(e) => {
-          const spanElement = e.target as HTMLSpanElement;
-          dispatch({
-            type: "UPDATE_ELEMENT",
-            payload: {
-              elementDetails: {
-                ...element,
-                content: {
-                  innerText: spanElement.innerText,
+      {!Array.isArray(content) &&
+        (state.editor.liveMode || state.editor.previewMode) && (
+          <Link href={content.href || "#"} target={"_blank"}>
+            {content.innerText || content.href}
+          </Link>
+        )}
+
+      {!Array.isArray(content) &&
+        !state.editor.liveMode &&
+        !state.editor.previewMode && (
+          <span
+            contentEditable={!state.editor.liveMode}
+            onBlur={(e) => {
+              const spanElement = e.target as HTMLSpanElement;
+              dispatch({
+                type: "UPDATE_ELEMENT",
+                payload: {
+                  elementDetails: {
+                    ...element,
+                    content: {
+                      innerText: spanElement.innerText,
+                    },
+                  },
                 },
-              },
-            },
-          });
-        }}
-      >
-        {!Array.isArray(content) && content.innerText}
-      </span>
+              });
+            }}
+          >
+            {!Array.isArray(content) && content.innerText}
+          </span>
+        )}
+
       {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode && (
           <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
@@ -94,4 +108,4 @@ const TextComponent: React.FC<Props> = ({ element }) => {
   );
 };
 
-export default TextComponent;
+export default LinkComponent;

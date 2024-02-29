@@ -137,7 +137,20 @@ const SettingsTab: React.FC<Props> = ({}) => {
     >
       <AccordionItem value="Custom" className="px-6 py-0  ">
         <AccordionTrigger className="!no-underline">Custom</AccordionTrigger>
-        <AccordionContent>
+        <AccordionContent className="flex flex-col gap-2">
+          {(state.editor.selectedElement.type === "link" ||
+            state.editor.selectedElement.type === "text") &&
+            !Array.isArray(state.editor.selectedElement.content) && (
+              <div className="flex flex-col gap-2">
+                <p className="text-muted-foreground">Text</p>
+                <Input
+                  id="innerText"
+                  placeholder="Some text..."
+                  onChange={handleChangeCustomValues}
+                  value={state.editor.selectedElement.content.innerText}
+                />
+              </div>
+            )}
           {state.editor.selectedElement.type === "link" &&
             !Array.isArray(state.editor.selectedElement.content) && (
               <div className="flex flex-col gap-2">
@@ -147,6 +160,18 @@ const SettingsTab: React.FC<Props> = ({}) => {
                   placeholder="https:domain.example.com/pathname"
                   onChange={handleChangeCustomValues}
                   value={state.editor.selectedElement.content.href}
+                />
+              </div>
+            )}
+          {state.editor.selectedElement.type === "video" &&
+            !Array.isArray(state.editor.selectedElement.content) && (
+              <div className="flex flex-col gap-2">
+                <p className="text-muted-foreground">Video Path</p>
+                <Input
+                  id="src"
+                  placeholder="https:domain.example.com/pathname"
+                  onChange={handleChangeCustomValues}
+                  value={state.editor.selectedElement.content.src}
                 />
               </div>
             )}

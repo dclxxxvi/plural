@@ -77,6 +77,60 @@ const Container: React.FC<Props> = ({ element }) => {
         break;
       }
 
+      case "link": {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: {
+                href: "#",
+                innerText: "Link",
+              },
+              id: v4(),
+              name: "Link",
+              styles: { color: "black", ...defaultStyles },
+              type: "link",
+            },
+          },
+        });
+        break;
+      }
+
+      case "contactForm": {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: "Contact Form",
+              styles: {},
+              type: "contactForm",
+            },
+          },
+        });
+        break;
+      }
+
+      case "paymentForm": {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: "Payment Form",
+              styles: {},
+              type: "paymentForm",
+            },
+          },
+        });
+        break;
+      }
+
       default:
         break;
     }

@@ -9,6 +9,9 @@ import {
 import TextPlaceholder from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab/text-placeholder";
 import ContainerPlaceholder from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab/container-placeholder";
 import VideoPlaceholder from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab/video-placeholder";
+import LinkPlaceholder from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab/link-placeholder";
+import ContactFormComponentPlaceholder from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab/contact-form-component-placeholder";
+import CheckoutPlaceholder from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor-sidebar/tabs/components-tab/checkout-placeholder";
 
 interface Props {}
 
@@ -35,6 +38,24 @@ const ComponentsTab: React.FC<Props> = ({}) => {
       Component: <VideoPlaceholder />,
       label: "Video",
       id: "video",
+      group: "element",
+    },
+    {
+      Component: <LinkPlaceholder />,
+      label: "Link",
+      id: "link",
+      group: "element",
+    },
+    {
+      Component: <ContactFormComponentPlaceholder />,
+      label: "Contact",
+      id: "contactForm",
+      group: "element",
+    },
+    {
+      Component: <CheckoutPlaceholder />,
+      label: "Checkout",
+      id: "paymentForm",
       group: "element",
     },
   ];

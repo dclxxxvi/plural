@@ -54,7 +54,7 @@ const VideoComponent: React.FC<Props> = ({ element }) => {
       {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode && (
           <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg ">
-            {state.editor.selectedElement.name}
+            {element.name}
           </Badge>
         )}
 

@@ -39,7 +39,8 @@ const FunnelEditor: React.FC<Props> = ({ funnelPageId, liveMode }) => {
         },
       });
     };
-  }, [funnelPageId, dispatch]);
+    fetchData();
+  }, [funnelPageId, dispatch, liveMode]);
 
   const handleClick = () => {
     dispatch({
