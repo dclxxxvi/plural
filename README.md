@@ -1,5 +1,5 @@
-## Plura
-# SaaS Platform for business
+# Plura
+## SaaS Platform for business
 
 Made with Next 14, Typescript, Prisma, Shadcn-ui using Clerk, Stripe and others...
 
