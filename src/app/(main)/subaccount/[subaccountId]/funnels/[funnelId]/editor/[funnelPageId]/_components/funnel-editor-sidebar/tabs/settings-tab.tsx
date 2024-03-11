@@ -567,6 +567,7 @@ const SettingsTab: React.FC<Props> = ({}) => {
               placeholder="px"
               type="checkbox"
               id="display"
+              checked={state.editor.selectedElement.styles?.display === "flex"}
               onChange={(va) => {
                 handleOnChanges({
                   target: {
