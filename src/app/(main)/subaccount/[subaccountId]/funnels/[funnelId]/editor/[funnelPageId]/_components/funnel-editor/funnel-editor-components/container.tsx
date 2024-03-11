@@ -35,6 +35,94 @@ const Container: React.FC<Props> = ({ element }) => {
     }
 
     switch (componentType) {
+      case "container": {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: "Container",
+              styles: { ...defaultStyles },
+              type: "container",
+            },
+          },
+        });
+        break;
+      }
+
+      case "2Col": {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles },
+                  type: "container",
+                  content: [],
+                },
+                {
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles },
+                  type: "container",
+                  content: [],
+                },
+              ],
+              id: v4(),
+              name: "Container",
+              styles: { ...defaultStyles, display: "flex" },
+              type: "container",
+            },
+          },
+        });
+        break;
+      }
+
+      case "3Col": {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles },
+                  type: "container",
+                  content: [],
+                },
+                {
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles },
+                  type: "container",
+                  content: [],
+                },
+                {
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles },
+                  type: "container",
+                  content: [],
+                },
+              ],
+              id: v4(),
+              name: "Container",
+              styles: { ...defaultStyles, display: "flex" },
+              type: "container",
+            },
+          },
+        });
+        break;
+      }
+
       case "text": {
         dispatch({
           type: "ADD_ELEMENT",
@@ -49,23 +137,6 @@ const Container: React.FC<Props> = ({ element }) => {
                 ...defaultStyles,
               },
               type: "text",
-            },
-          },
-        });
-        break;
-      }
-
-      case "container": {
-        dispatch({
-          type: "ADD_ELEMENT",
-          payload: {
-            containerId: id,
-            elementDetails: {
-              content: [],
-              id: v4(),
-              name: "Container",
-              styles: { ...defaultStyles },
-              type: "container",
             },
           },
         });
