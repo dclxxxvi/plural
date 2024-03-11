@@ -1,6 +1,9 @@
 "use client";
 import * as React from "react";
-import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
+import {
+  EditorElement as EditorElementType,
+  useEditor,
+} from "@/providers/editor/editor-provider";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { getFunnel, getSubaccountDetails } from "@/lib/queries";
@@ -15,9 +18,10 @@ import {
 } from "@stripe/react-stripe-js";
 import { getStripe } from "@/lib/stripe/stripe-client";
 import Loading from "@/components/global/loading";
+import EditorElement from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor/funnel-editor-components/editor-element";
 
 interface Props {
-  element: EditorElement;
+  element: EditorElementType;
 }
 
 const CheckoutComponent: React.FC<Props> = (props) => {
@@ -93,67 +97,13 @@ const CheckoutComponent: React.FC<Props> = (props) => {
     }
   }, [livePrices, subaccountId, subAccountConnectAccId]);
 
-  const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
-    if (type === null) return;
-    e.dataTransfer.setData("componentType", type);
-  };
-
-  const handleOnClickBody = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: props.element,
-      },
-    });
-  };
-
-  const goToNextPage = async () => {
-    if (!state.editor.liveMode || state.editor.previewMode) return;
-    const funnelPages = await getFunnel(funnelId);
-    if (!funnelPages || !pageDetails) return;
-    if (funnelPages.FunnelPages.length > pageDetails.order + 1) {
-      const nextPage = funnelPages.FunnelPages.find(
-        (page) => page.order === pageDetails.order + 1,
-      );
-      if (!nextPage) return;
-      router.replace(
-        `${process.env.NEXT_PUBLIC_SCHEME}${funnelPages.subDomainName}.${process.env.NEXT_PUBLIC_DOMAIN}/${nextPage.pathName}`,
-      );
-    }
-  };
-
-  const handleDeleteElement = () => {
-    dispatch({
-      type: "DELETE_ELEMENT",
-      payload: { elementDetails: props.element },
-    });
-  };
-
   return (
-    <div
-      style={props.element.styles}
-      draggable
-      onDragStart={(e) => handleDragStart(e, "paymentForm")}
-      onClick={handleOnClickBody}
-      className={clsx(
+    <EditorElement
+      element={props.element}
+      classValues={[
         "p-[2px] w-full m-[5px] relative text-[16px] transition-all flex items-center justify-center",
-        {
-          "!border-blue-500":
-            state.editor.selectedElement.id === props.element.id,
-
-          "!border-solid": state.editor.selectedElement.id === props.element.id,
-          "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
-        },
-      )}
+      ]}
     >
-      {state.editor.selectedElement.id === props.element.id &&
-        !state.editor.liveMode && (
-          <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg ">
-            {state.editor.selectedElement.name}
-          </Badge>
-        )}
-
       <div className={"border-none transition-all w-full"}>
         <div className={"flex flex-col gap-4 w-full"}>
           {options.clientSecret && subAccountConnectAccId && (
@@ -174,18 +124,7 @@ const CheckoutComponent: React.FC<Props> = (props) => {
           )}
         </div>
       </div>
-
-      {state.editor.selectedElement.id === props.element.id &&
-        !state.editor.liveMode && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
-            <Trash
-              className="cursor-pointer"
-              size={16}
-              onClick={handleDeleteElement}
-            />
-          </div>
-        )}
-    </div>
+    </EditorElement>
   );
 };
 

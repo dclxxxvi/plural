@@ -141,6 +141,91 @@ const deleteAnElement = (
   });
 };
 
+const recursiveSearchElement = (
+  elements: EditorElement[],
+  id: string,
+  foundElement: EditorElement,
+) => {
+  for (let el of elements) {
+    if (el.id === id) {
+      foundElement = el;
+      return el;
+    }
+    if (Array.isArray(el.content)) {
+      recursiveSearchElement(el.content, id, foundElement);
+    }
+  }
+};
+
+const findElementById = (
+  elements: EditorElement[],
+  action: EditorAction,
+): EditorElement => {
+  if (action.type !== "FIND_ELEMENT_BY_ID") {
+    throw Error(
+      "You sent the wrong action type to the Find Element editor State",
+    );
+  }
+
+  let foundElement;
+
+  const recursiveSearchElement = (elements: EditorElement[]) => {
+    for (let el of elements) {
+      if (foundElement) return;
+      if (el.id === action.payload.elementDetails.id) {
+        foundElement = el;
+        return;
+      }
+      if (Array.isArray(el.content)) {
+        recursiveSearchElement(el.content);
+      }
+    }
+  };
+
+  recursiveSearchElement(elements);
+
+  return foundElement;
+};
+
+const updateElementContainer = (
+  elements: EditorElement[],
+  action: EditorAction,
+): EditorElement[] => {
+  if (action.type !== "UPDATE_ELEMENT_CONTAINER") {
+    throw Error(
+      "You sent the wrong action type to the Update Element Container editor State",
+    );
+  }
+
+  const element = findElementById(elements, {
+    type: "FIND_ELEMENT_BY_ID",
+    payload: {
+      elementDetails: action.payload.elementDetails,
+    },
+  });
+
+  if (!element) {
+    throw Error("Couldn't find an element");
+  }
+
+  const elementsWithDeleted = deleteAnElement(elements, {
+    type: "DELETE_ELEMENT",
+    payload: {
+      elementDetails: element,
+    },
+  });
+
+  const elementsWithAdded = addAnElement(elementsWithDeleted, {
+    type: "ADD_ELEMENT",
+    payload: {
+      elementDetails: element,
+      containerId: action.payload.containerId,
+    },
+  });
+
+  return elementsWithAdded;
+};
+
 const editorReducer = (
   state: EditorState = initialState,
   action: EditorAction,
@@ -314,6 +399,27 @@ const editorReducer = (
       const updatedEditorState = {
         ...state.editor,
         elements: addAnElement(state.editor.elements, action),
+      };
+
+      const updatedHistory = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorState },
+      ];
+
+      return {
+        ...state,
+        editor: updatedEditorState,
+        history: {
+          ...state.history,
+          history: updatedHistory,
+          currentIndex: updatedHistory.length - 1,
+        },
+      };
+    }
+    case "UPDATE_ELEMENT_CONTAINER": {
+      const updatedEditorState = {
+        ...state.editor,
+        elements: updateElementContainer(state.editor.elements, action),
       };
 
       const updatedHistory = [

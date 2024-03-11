@@ -1,66 +1,21 @@
 "use client";
 import * as React from "react";
-import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
-import { clsx } from "clsx";
-import { Badge } from "@/components/ui/badge";
-import { Trash } from "lucide-react";
-import { EditorBtns } from "@/lib/constants";
+import {
+  EditorElement as EditorElementType,
+  useEditor,
+} from "@/providers/editor/editor-provider";
+import EditorElement from "@/app/(main)/subaccount/[subaccountId]/funnels/[funnelId]/editor/[funnelPageId]/_components/funnel-editor/funnel-editor-components/editor-element";
 
 interface Props {
-  element: EditorElement;
+  element: EditorElementType;
 }
 
 const TextComponent: React.FC<Props> = ({ element }) => {
   const { dispatch, state } = useEditor();
-  const { styles, content } = element;
-
-  const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
-    if (type === null) return;
-    e.dataTransfer.setData("componentType", type);
-  };
-
-  const handleDeleteElement = () => {
-    dispatch({
-      type: "DELETE_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
-    });
-  };
-
-  const handleOnClickBody = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
-    });
-  };
-
-  //TODO: Make it draggable
+  const { content } = element;
 
   return (
-    <div
-      style={styles}
-      className={clsx(
-        "p-[2px] w-full m-[5px] relative text-[16px] transition-all",
-        {
-          "!border-blue-500": state.editor.selectedElement.id === element.id,
-          "!border-solid": state.editor.selectedElement.id === element.id,
-          "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
-        },
-      )}
-      onClick={handleOnClickBody}
-      onDragStart={(e) => handleDragStart(e, "text")}
-    >
-      {state.editor.selectedElement.id === element.id &&
-        !state.editor.liveMode && (
-          <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg">
-            {element.name}
-          </Badge>
-        )}
-
+    <EditorElement element={element}>
       <span
         contentEditable={!state.editor.liveMode}
         onBlur={(e) => {
@@ -80,17 +35,7 @@ const TextComponent: React.FC<Props> = ({ element }) => {
       >
         {!Array.isArray(content) && content.innerText}
       </span>
-      {state.editor.selectedElement.id === element.id &&
-        !state.editor.liveMode && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
-            <Trash
-              className="cursor-pointer"
-              size={16}
-              onClick={handleDeleteElement}
-            />
-          </div>
-        )}
-    </div>
+    </EditorElement>
   );
 };
 

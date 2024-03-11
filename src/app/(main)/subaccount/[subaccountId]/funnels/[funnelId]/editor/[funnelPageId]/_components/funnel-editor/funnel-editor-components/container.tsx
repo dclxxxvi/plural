@@ -19,6 +19,20 @@ const Container: React.FC<Props> = ({ element }) => {
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation();
     const componentType = e.dataTransfer.getData("componentType") as EditorBtns;
+    const elementId = e.dataTransfer.getData("elementId");
+
+    if (elementId) {
+      dispatch({
+        type: "UPDATE_ELEMENT_CONTAINER",
+        payload: {
+          containerId: id,
+          elementDetails: {
+            id: elementId,
+          },
+        },
+      });
+      return;
+    }
 
     switch (componentType) {
       case "text": {
@@ -141,9 +155,11 @@ const Container: React.FC<Props> = ({ element }) => {
   };
 
   // TODO: реализовать два типа перемещения элемента: из панели с созданием нового или перемещение компонентов внутри поля
-  const handleDragStart = (e: React.DragEvent, type: string) => {
+  const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
+    e.stopPropagation();
     if (type === "__body") return;
-    e.dataTransfer.setData("componentType", type);
+    e.dataTransfer.setData("componentType", type as string);
+    e.dataTransfer.setData("elementId", element.id);
   };
 
   const handleOnClickBody = (e: React.MouseEvent) => {
@@ -189,7 +205,7 @@ const Container: React.FC<Props> = ({ element }) => {
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}
       draggable={type !== "__body"}
-      onDragStart={(e) => handleDragStart(e, "container")}
+      onDragStart={(e) => handleDragStart(e, element.type)}
       onClick={handleOnClickBody}
     >
       <Badge

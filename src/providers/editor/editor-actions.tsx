@@ -63,4 +63,17 @@ export type EditorAction =
       payload: {
         funnelPageId: string;
       };
+    }
+  | {
+      type: "UPDATE_ELEMENT_CONTAINER";
+      payload: {
+        elementDetails: Pick<EditorElement, "id">;
+        containerId: string;
+      };
+    }
+  | {
+      type: "FIND_ELEMENT_BY_ID";
+      payload: {
+        elementDetails: Pick<EditorElement, "id">;
+      };
     };
