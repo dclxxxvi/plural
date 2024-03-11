@@ -1,3 +1,8 @@
+## Plura
+# SaaS Platform for business
+
+Made with Next 14, Typescript, Prisma, Shadcn-ui using Clerk, Stripe and others...
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
